@@ -40,3 +40,5 @@ git clone https://github.com/andystanton/euler.git && cd euler
  * rust 0.13
  * c++ 11
  * node js 0.10.33
+ * groovy 2.3
+ * coffeescript 1.8
