@@ -15,7 +15,7 @@ text_bold=$(tput bold)
 script_name=$(basename ${0}); pushd $(dirname ${0}) > /dev/null
 script_path=$(pwd -P); popd > /dev/null
 
-valid_extensions=('java' 'scala' 'rb' 'py' 'rs' 'go' 'cpp')
+valid_extensions=('java' 'scala' 'rb' 'py' 'rs' 'go' 'cpp' 'js')
 
 exercise_number=${1}
 if [[ ${2} == "debug" ]]; then
@@ -48,7 +48,7 @@ function run_validate() {
 }
 
 function run_strip_extension() {
-    echo $(echo ${1} | sed -E "s/\.[[:alnum:]]*$//");
+    echo ${1} | sed -E "s/\.[[:alnum:]]*$//";
 }
 
 function run_append_extension() {
@@ -88,7 +88,12 @@ function run_execute_code() {
     local extension_string=$(run_concatenate_list '|' ${valid_extensions[@]})
     local found_files=$(find -E ${code_dir} -regex ".*\.(${extension_string})")
 
+    local run_count=0
+    local run_success=0
+
     for found_file in ${found_files}; do
+        run_count=$((run_count + 1))
+
         local file_extension=$(run_get_extension ${found_file})
         local base_file_name=$(basename ${found_file})
         local base_dir_name=$(dirname ${found_file})
@@ -127,6 +132,9 @@ function run_execute_code() {
             go)
                 local result=$(run_execute_script_family ${base_file_name} "go run")
                 ;;
+            js)
+                local result=$(run_execute_script_family ${base_file_name} node)
+                ;;
             *)
                 echo -n "Unknown file type"
                 exit 1
@@ -136,6 +144,7 @@ function run_execute_code() {
         if [[ -n ${answer} ]]; then
             if [[ ${answer} == ${result} ]]; then
                 local result_text=${text_green}${result}${text_reset}
+                run_success=$((run_success + 1))
             else
                 local result_text=${text_red}${result}${text_reset}
             fi
@@ -145,6 +154,19 @@ function run_execute_code() {
 
         echo "Result: ${result_text}"
     done
+
+    echo
+    if [[ -n ${answer} ]]; then
+        if [[ ${run_success} == ${run_count} ]]; then
+            echo "${text_green}Success!${text_reset} ${text_bold}${run_success}/${run_count}${text_reset}"
+        else
+            echo "${text_red}Failure!${text_reset} ${text_bold}${run_success}/${run_count}${text_reset}"
+        fi
+    else
+        echo "Ran ${run_count}"
+    fi
+
+
 }
 
 run_validate
