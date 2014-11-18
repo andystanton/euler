@@ -15,7 +15,7 @@ text_bold=$(tput bold)
 script_name=$(basename ${0}); pushd $(dirname ${0}) > /dev/null
 script_path=$(pwd -P); popd > /dev/null
 
-valid_extensions=('java' 'scala' 'rb' 'py' 'rs' 'go' 'cpp' 'js')
+valid_extensions=('java' 'scala' 'rb' 'py' 'rs' 'go' 'cpp' 'js' 'coffee')
 
 exercise_number=${1}
 if [[ ${2} == "debug" ]]; then
@@ -134,6 +134,9 @@ function run_execute_code() {
                 ;;
             js)
                 local result=$(run_execute_script_family ${base_file_name} node)
+                ;;
+            coffee)
+                local result=$(run_execute_script_family ${base_file_name} coffee)
                 ;;
             *)
                 echo -n "Unknown file type"
