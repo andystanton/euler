@@ -25,9 +25,7 @@ The problem and answer are printed out when the script is run. If there is an an
 ## Quick Start
 
 ```sh
-git clone https://github.com/andystanton/euler.git
-
-cd euler
+git clone https://github.com/andystanton/euler.git && cd euler
 
 ./euler.sh 1
 ```
