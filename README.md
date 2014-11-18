@@ -39,3 +39,4 @@ git clone https://github.com/andystanton/euler.git && cd euler
  * go 1.3
  * rust 0.13
  * c++ 11
+ * node js 0.10.33
