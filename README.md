@@ -47,5 +47,5 @@ git clone https://github.com/andystanton/euler.git && cd euler
 
 ## TODO
 
- [] Output time taken for each solution to run.
- [] Run each solution in a language specific container rather than rely on the host machine having each language installed.
+ * Output time taken for each solution to run.
+ * Run each solution in a language specific container rather than rely on the host machine having each language installed.
