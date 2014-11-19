@@ -15,7 +15,7 @@ text_bold=$(tput bold)
 script_name=$(basename ${0}); pushd $(dirname ${0}) > /dev/null
 script_path=$(pwd -P); popd > /dev/null
 
-valid_extensions=('java' 'scala' 'rb' 'py' 'rs' 'go' 'cpp' 'js' 'coffee' 'groovy' 'c')
+valid_extensions=('java' 'scala' 'rb' 'py' 'rs' 'go' 'cpp' 'js' 'coffee' 'groovy' 'c' 'd')
 
 exercise_number=${1}
 if [[ ${2} == "debug" ]]; then
@@ -82,6 +82,15 @@ function run_execute_script_family() {
     ${runtime} ${srcfile}
 }
 
+function run_execute_docker() {
+    local docker_image=${1}
+    local srcfile=${2}
+    local result=$(docker run -i -t --rm -v $(pwd -P):/data/euler ${1} /data/euler/${2})
+
+    # in case of carriage return at end of result
+    echo ${result} | perl -p -i -e 's/\r\n$/\n/g'
+}
+
 function run_execute_code() {
     local code_dir=${1}
 
@@ -120,6 +129,9 @@ function run_execute_code() {
             c)
                 local result=$(run_execute_c_family ${base_file_name} ${file_extension} gcc)
                 ;;
+            d)
+                local result=$(run_execute_script_family ${base_file_name} rdmd)
+                ;;
             cpp)
                 local result=$(run_execute_c_family ${base_file_name} ${file_extension} c++ -std=c++11)
                 ;;
@@ -130,7 +142,7 @@ function run_execute_code() {
                 local result=$(run_execute_script_family ${base_file_name} python)
                 ;;
             scala)
-                local result=$(run_execute_script_family ${base_file_name} scala)
+                local result=$(run_execute_docker andystanton/scala ${base_file_name})
                 ;;
             go)
                 local result=$(run_execute_script_family ${base_file_name} "go run")
