@@ -32,17 +32,20 @@ git clone https://github.com/andystanton/euler.git && cd euler
 
 ## Supported Languages
 
- * python 3
- * ruby 2
- * java 8
- * scala 2.11
- * go 1.3
- * rust 0.13
+ * python
+ * ruby
+ * java
+ * scala
+ * go
+ * rust
  * c
- * c++ 11
- * node js 0.10.33
- * groovy 2.3
- * coffeescript 1.8
+ * c++
+ * nodejs
+ * groovy
+ * coffeescript
+ * haskell
+ * erlang
+ * d
 
 
 ## TODO
