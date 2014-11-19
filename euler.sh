@@ -15,7 +15,7 @@ text_bold=$(tput bold)
 script_name=$(basename ${0}); pushd $(dirname ${0}) > /dev/null
 script_path=$(pwd -P); popd > /dev/null
 
-valid_extensions=('java' 'scala' 'rb' 'py' 'rs' 'go' 'cpp' 'js' 'coffee' 'groovy')
+valid_extensions=('java' 'scala' 'rb' 'py' 'rs' 'go' 'cpp' 'js' 'coffee' 'groovy' 'c')
 
 exercise_number=${1}
 if [[ ${2} == "debug" ]]; then
@@ -116,6 +116,9 @@ function run_execute_code() {
                 ;;
             rs)
                 local result=$(run_execute_c_family ${base_file_name} ${file_extension} rustc)
+                ;;
+            c)
+                local result=$(run_execute_c_family ${base_file_name} ${file_extension} gcc)
                 ;;
             cpp)
                 local result=$(run_execute_c_family ${base_file_name} ${file_extension} c++ -std=c++11)
