@@ -7,13 +7,13 @@ The problem and answer can be included in plain text files in each problem direc
 ```
 .
 ├── 1
-│   ├── answer
 │   ├── cpp
 │   │   └── ...
 │   ├── go
 │   │   └── ...
 │   ├── java
 │   │   └── ...
+│   ├── answer
 │   └── problem
 ├── ...
 ├── README.md
