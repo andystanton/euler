@@ -49,3 +49,4 @@ git clone https://github.com/andystanton/euler.git && cd euler
 
  * Output time taken for each solution to run.
  * Run each solution in a language specific container rather than rely on the host machine having each language installed.
+ * Add erlang, haskell & d.
