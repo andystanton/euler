@@ -1,6 +1,6 @@
 # Project Euler Solutions
 
-Solutions to [Project Euler](https://projecteuler.net) problems. Includes shell script to run source files containing a solution.
+Solutions to [Project Euler](https://projecteuler.net) problems. The solutions rely on language features only i.e. no third party libraries. Includes shell script to run source files containing a solution.
 
 The problem and answer can be included in plain text files in each problem directory, e.g.
 
@@ -38,7 +38,13 @@ git clone https://github.com/andystanton/euler.git && cd euler
  * scala 2.11
  * go 1.3
  * rust 0.13
+ * c
  * c++ 11
  * node js 0.10.33
  * groovy 2.3
  * coffeescript 1.8
+
+ ## TODO
+
+  [ ] Output time taken for each solution to run.
+  [ ] Run each solution in a language specific container rather than rely on the host machine having each language installed.
