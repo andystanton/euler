@@ -86,8 +86,9 @@ function run_execute_script_family() {
 function run_execute_docker() {
     local image=${1}
     local srcfile=${2}
+    local entrypoint_args=${3}
     local workdir=/data/euler
-    local result=$(docker run -t --rm -w ${workdir} -v $(pwd -P):${workdir} ${image} ${srcfile})
+    local result=$(docker run -t --rm -w ${workdir} -v $(pwd -P):${workdir} ${image} ${srcfile} ${entrypoint_args})
 
     # in case of carriage return at end of result
     echo ${result} | perl -p -i -e 's/\r\n$/\n/g'
@@ -127,23 +128,14 @@ function run_execute_code() {
                 java)
                     local result=$(run_execute_docker andystanton/java ${base_file_name})
                     ;;
-                rs)
-                    local result=$(run_execute_c_family ${base_file_name} ${file_extension} rustc)
-                    ;;
                 c)
-                    local result=$(run_execute_c_family ${base_file_name} ${file_extension} gcc)
-                    ;;
-                d)
-                    local result=$(run_execute_script_family ${base_file_name} rdmd)
+                    local result=$(run_execute_docker andystanton/cpp ${base_file_name} c)
                     ;;
                 cpp)
-                    local result=$(run_execute_c_family ${base_file_name} ${file_extension} c++ -std=c++11)
-                    ;;
-                hs)
-                    local result=$(run_execute_c_family ${base_file_name} ${file_extension} ghc -v0)
+                    local result=$(run_execute_docker andystanton/cpp ${base_file_name} -std=c++11)
                     ;;
                 rb)
-                    local result=$(run_execute_script_family ${base_file_name} ruby)
+                    local result=$(run_execute_docker andystanton/ruby ${base_file_name})
                     ;;
                 py)
                     local result=$(run_execute_docker andystanton/python ${base_file_name})
@@ -166,6 +158,15 @@ function run_execute_code() {
                 erl)
                     erl -compile $(run_strip_extension ${base_file_name})
     	            local result=$(erl -noshell -s $(run_strip_extension ${base_file_name}) main -s init stop)
+                    ;;
+                hs)
+                    local result=$(run_execute_c_family ${base_file_name} ${file_extension} ghc -v0)
+                    ;;
+                rs)
+                    local result=$(run_execute_c_family ${base_file_name} ${file_extension} rustc)
+                    ;;
+                d)
+                    local result=$(run_execute_script_family ${base_file_name} rdmd)
                     ;;
                 *)
                     echo -n "Unknown file type"
