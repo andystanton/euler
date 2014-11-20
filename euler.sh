@@ -48,7 +48,7 @@ function run_validate() {
 }
 
 function run_strip_extension() {
-    echo ${1} | sed -E "s/\.[[:alnum:]]*$//";
+    echo ${1} | sed -E "s/\.[[:alnum:]]*$//"
 }
 
 function run_append_extension() {
@@ -85,7 +85,7 @@ function run_execute_script_family() {
 function run_execute_docker() {
     local docker_image=${1}
     local srcfile=${2}
-    local result=$(docker run -t --rm -v $(pwd -P):/data/euler ${1} /data/euler/${2})
+    local result=$(docker run -t --rm -w="/data/euler" -v $(pwd -P):/data/euler ${docker_image} /data/euler/${srcfile})
 
     # in case of carriage return at end of result
     echo ${result} | perl -p -i -e 's/\r\n$/\n/g'
@@ -121,7 +121,7 @@ function run_execute_code() {
 
         case ${file_extension} in
             java)
-                local result=$(run_execute_java ${base_file_name})
+                local result=$(run_execute_docker andystanton/java ${base_file_name})
                 ;;
             rs)
                 local result=$(run_execute_c_family ${base_file_name} ${file_extension} rustc)
@@ -142,7 +142,7 @@ function run_execute_code() {
                 local result=$(run_execute_script_family ${base_file_name} ruby)
                 ;;
             py)
-                local result=$(run_execute_script_family ${base_file_name} python)
+                local result=$(run_execute_docker andystanton/python ${base_file_name})
                 ;;
             scala)
                 local result=$(run_execute_docker andystanton/scala ${base_file_name})
