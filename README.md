@@ -1,6 +1,6 @@
 # Project Euler Solutions
 
-Solutions to [Project Euler](https://projecteuler.net) problems. The solutions rely on language features only i.e. no third party libraries. Includes shell script to run source files containing a solution.
+Solutions to [Project Euler](https://projecteuler.net) problems. The solutions rely on language features only i.e. no third party libraries. Includes shell script to run source files containing a solution using appropriate Docker containers.
 
 The problem and answer can be included in plain text files in each problem directory, e.g.
 
@@ -20,33 +20,31 @@ The problem and answer can be included in plain text files in each problem direc
 └── euler.sh
 ```
 
-The problem and answer are printed out when the script is run. If there is an answer, the solutions are checked against this and output in green or red accordingly.
+These are displayed when the script is run. If there is an answer, the solutions are checked against this and output in green or red accordingly.
+
+## Requirements
+
+ * bash
+ * docker 1.3
 
 ## Quick Start
 
 ```sh
 git clone https://github.com/andystanton/euler.git && cd euler
+```
 
+To run all solutions to a given problem:
+
+```sh
 ./euler.sh 1
 ```
 
-## Supported Languages
+To run a particular language's solution to a given problem, use the language's source extension:
 
- * python
- * ruby
- * java
- * scala
- * go
- * rust
- * c
- * c++
- * nodejs
- * groovy
- * coffeescript
- * haskell
- * erlang
- * d
-
+```sh
+./euler.sh 1 java
+./euler.sh 1 py
+```
 
 ## TODO
 
