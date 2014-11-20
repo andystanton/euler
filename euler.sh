@@ -18,7 +18,8 @@ script_path=$(pwd -P); popd > /dev/null
 valid_extensions=('java' 'scala' 'rb' 'py' 'rs' 'go' 'cpp' 'js' 'coffee' 'groovy' 'c' 'd' 'hs' 'erl')
 
 exercise_number=${1}
-if [[ ${2} == "debug" ]]; then
+target_language=${2}
+if [[ ${3} == "debug" ]]; then
     run_debug=true
 fi
 exercise_path=${script_path}/${exercise_number}
@@ -101,86 +102,89 @@ function run_execute_code() {
     local run_success=0
 
     for found_file in ${found_files}; do
-        run_count=$((run_count + 1))
-
         local file_extension=$(run_get_extension ${found_file})
-        local base_file_name=$(basename ${found_file})
-        local base_dir_name=$(dirname ${found_file})
+        if [[ -z ${target_language} || ${target_language} == ${file_extension} ]]; then
 
-        echo
-        echo "Solution: ${text_bold}${found_file}${text_reset}"
+            run_count=$((run_count + 1))
 
-        if [[ ${run_debug} == true ]]; then
-            echo "Source Details:"
-            echo " - ${text_lightblue}path${text_reset}: ${text_bold}${base_dir_name}${text_reset}"
-            echo " - ${text_lightblue}name${text_reset}: ${text_bold}${base_file_name}${text_reset}"
-            echo " - ${text_lightblue}extension${text_reset}: ${text_bold}${file_extension}${text_reset}"
-        fi
+            local base_file_name=$(basename ${found_file})
+            local base_dir_name=$(dirname ${found_file})
 
-        cd ${base_dir_name}
+            echo
+            echo "Solution: ${text_bold}${found_file}${text_reset}"
 
-        case ${file_extension} in
-            java)
-                local result=$(run_execute_docker andystanton/java ${base_file_name})
-                ;;
-            rs)
-                local result=$(run_execute_c_family ${base_file_name} ${file_extension} rustc)
-                ;;
-            c)
-                local result=$(run_execute_c_family ${base_file_name} ${file_extension} gcc)
-                ;;
-            d)
-                local result=$(run_execute_script_family ${base_file_name} rdmd)
-                ;;
-            cpp)
-                local result=$(run_execute_c_family ${base_file_name} ${file_extension} c++ -std=c++11)
-                ;;
-            hs)
-                local result=$(run_execute_c_family ${base_file_name} ${file_extension} ghc -v0)
-                ;;
-            rb)
-                local result=$(run_execute_script_family ${base_file_name} ruby)
-                ;;
-            py)
-                local result=$(run_execute_docker andystanton/python ${base_file_name})
-                ;;
-            scala)
-                local result=$(run_execute_docker andystanton/scala ${base_file_name})
-                ;;
-            go)
-                local result=$(run_execute_script_family ${base_file_name} "go run")
-                ;;
-            js)
-                local result=$(run_execute_script_family ${base_file_name} node)
-                ;;
-            coffee)
-                local result=$(run_execute_script_family ${base_file_name} coffee)
-                ;;
-            groovy)
-                local result=$(run_execute_script_family ${base_file_name} groovy)
-                ;;
-            erl)
-                erl -compile $(run_strip_extension ${base_file_name})
-	            local result=$(erl -noshell -s $(run_strip_extension ${base_file_name}) main -s init stop)
-                ;;
-            *)
-                echo -n "Unknown file type"
-                exit 1
-            ;;
-        esac
-
-        if [[ -n ${answer} ]]; then
-            if [[ ${answer} == ${result} ]]; then
-                local result_text=${text_green}${result}${text_reset}
-                run_success=$((run_success + 1))
-            else
-                local result_text=${text_red}${result}${text_reset}
+            if [[ ${run_debug} == true ]]; then
+                echo "Source Details:"
+                echo " - ${text_lightblue}path${text_reset}: ${text_bold}${base_dir_name}${text_reset}"
+                echo " - ${text_lightblue}name${text_reset}: ${text_bold}${base_file_name}${text_reset}"
+                echo " - ${text_lightblue}extension${text_reset}: ${text_bold}${file_extension}${text_reset}"
             fi
-        else
-            local result_text=${result}
-        fi
 
-        echo "Result: ${result_text}"
+            cd ${base_dir_name}
+
+            case ${file_extension} in
+                java)
+                    local result=$(run_execute_docker andystanton/java ${base_file_name})
+                    ;;
+                rs)
+                    local result=$(run_execute_c_family ${base_file_name} ${file_extension} rustc)
+                    ;;
+                c)
+                    local result=$(run_execute_c_family ${base_file_name} ${file_extension} gcc)
+                    ;;
+                d)
+                    local result=$(run_execute_script_family ${base_file_name} rdmd)
+                    ;;
+                cpp)
+                    local result=$(run_execute_c_family ${base_file_name} ${file_extension} c++ -std=c++11)
+                    ;;
+                hs)
+                    local result=$(run_execute_c_family ${base_file_name} ${file_extension} ghc -v0)
+                    ;;
+                rb)
+                    local result=$(run_execute_script_family ${base_file_name} ruby)
+                    ;;
+                py)
+                    local result=$(run_execute_docker andystanton/python ${base_file_name})
+                    ;;
+                scala)
+                    local result=$(run_execute_docker andystanton/scala ${base_file_name})
+                    ;;
+                go)
+                    local result=$(run_execute_script_family ${base_file_name} "go run")
+                    ;;
+                js)
+                    local result=$(run_execute_script_family ${base_file_name} node)
+                    ;;
+                coffee)
+                    local result=$(run_execute_script_family ${base_file_name} coffee)
+                    ;;
+                groovy)
+                    local result=$(run_execute_script_family ${base_file_name} groovy)
+                    ;;
+                erl)
+                    erl -compile $(run_strip_extension ${base_file_name})
+    	            local result=$(erl -noshell -s $(run_strip_extension ${base_file_name}) main -s init stop)
+                    ;;
+                *)
+                    echo -n "Unknown file type"
+                    exit 1
+                ;;
+            esac
+
+            if [[ -n ${answer} ]]; then
+                if [[ ${answer} == ${result} ]]; then
+                    local result_text=${text_green}${result}${text_reset}
+                    run_success=$((run_success + 1))
+                else
+                    local result_text=${text_red}${result}${text_reset}
+                fi
+            else
+                local result_text=${result}
+            fi
+
+            echo "Result: ${result_text}"
+        fi
     done
 
     echo
