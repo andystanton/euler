@@ -143,6 +143,9 @@ function run_execute_code() {
                 scala)
                     local result=$(run_execute_docker andystanton/scala ${base_file_name})
                     ;;
+                groovy)
+                    local result=$(run_execute_docker andystanton/groovy ${base_file_name})
+                    ;;
                 go)
                     local result=$(run_execute_script_family ${base_file_name} "go run")
                     ;;
@@ -151,9 +154,6 @@ function run_execute_code() {
                     ;;
                 coffee)
                     local result=$(run_execute_script_family ${base_file_name} coffee)
-                    ;;
-                groovy)
-                    local result=$(run_execute_script_family ${base_file_name} groovy)
                     ;;
                 erl)
                     erl -compile $(run_strip_extension ${base_file_name})
