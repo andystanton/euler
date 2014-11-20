@@ -84,9 +84,10 @@ function run_execute_script_family() {
 }
 
 function run_execute_docker() {
-    local docker_image=${1}
+    local image=${1}
     local srcfile=${2}
-    local result=$(docker run -t --rm -w="/data/euler" -v $(pwd -P):/data/euler ${docker_image} /data/euler/${srcfile})
+    local workdir=/data/euler
+    local result=$(docker run -t --rm -w ${workdir} -v $(pwd -P):${workdir} ${image} ${srcfile})
 
     # in case of carriage return at end of result
     echo ${result} | perl -p -i -e 's/\r\n$/\n/g'
