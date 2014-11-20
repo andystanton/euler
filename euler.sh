@@ -187,11 +187,14 @@ function run_execute_code() {
     if [[ -n ${answer} ]]; then
         if [[ ${run_success} == ${run_count} ]]; then
             echo "${text_green}Success!${text_reset} ${text_bold}${run_success}/${run_count}${text_reset}"
+            exit 0
         else
             echo "${text_red}Failure!${text_reset} ${text_bold}${run_success}/${run_count}${text_reset}"
+            exit 1
         fi
     else
         echo "Ran ${run_count}"
+        exit 0
     fi
 
 
