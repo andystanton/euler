@@ -15,13 +15,15 @@ text_bold=$(tput bold)
 script_name=$(basename ${0}); pushd $(dirname ${0}) > /dev/null
 script_path=$(pwd -P); popd > /dev/null
 
-valid_extensions=('java' 'scala' 'rb' 'py' 'rs' 'go' 'cpp' 'js' 'coffee' 'groovy' 'c' 'd' 'hs' 'erl')
+valid_extensions=('java' 'scala' 'rb' 'py' 'rs' 'go' 'cpp' 'js' 'coffee' 'groovy' 'c' 'd' 'hs')
 
 exercise_number=${1}
 target_language=${2}
+
 if [[ ${3} == "debug" ]]; then
     run_debug=true
 fi
+
 exercise_path=${script_path}/${exercise_number}
 answer=$(cat 2> /dev/null ${exercise_path}/answer)
 
@@ -48,39 +50,8 @@ function run_validate() {
     fi
 }
 
-function run_strip_extension() {
-    echo ${1} | sed -E "s/\.[[:alnum:]]*$//"
-}
-
-function run_append_extension() {
-    echo "${1}.${2}"
-}
-
 function run_get_extension() {
     echo ${1} | sed -En 's/^.*\.(.*)$/\1/p'
-}
-
-function run_execute_c_family() {
-    local extension=${2}
-    local compiler=${3}
-    local args=${4}
-
-    local srcfile=${1}
-    local binfile=$(run_strip_extension ${srcfile})
-
-    ${compiler} ${args} ${srcfile} -o ${binfile} && ./${binfile}
-}
-
-function run_execute_java() {
-    local srcfile=${1}
-    local binfile=$(run_strip_extension ${1})
-    javac ${srcfile} && java ${binfile}
-}
-
-function run_execute_script_family() {
-    local srcfile=${1}
-    local runtime=${2}
-    ${runtime} ${srcfile}
 }
 
 function run_execute_docker() {
@@ -125,53 +96,21 @@ function run_execute_code() {
             cd ${base_dir_name}
 
             case ${file_extension} in
-                java)
-                    local result=$(run_execute_docker andystanton/java ${base_file_name})
-                    ;;
-                c)
-                    local result=$(run_execute_docker andystanton/cpp ${base_file_name} c)
-                    ;;
-                cpp)
-                    local result=$(run_execute_docker andystanton/cpp ${base_file_name} -std=c++11)
-                    ;;
-                rb)
-                    local result=$(run_execute_docker andystanton/ruby ${base_file_name})
-                    ;;
-                py)
-                    local result=$(run_execute_docker andystanton/python ${base_file_name})
-                    ;;
-                scala)
-                    local result=$(run_execute_docker andystanton/scala ${base_file_name})
-                    ;;
-                groovy)
-                    local result=$(run_execute_docker andystanton/groovy ${base_file_name})
-                    ;;
-                go)
-                    local result=$(run_execute_script_family ${base_file_name} "go run")
-                    ;;
-                js)
-                    local result=$(run_execute_script_family ${base_file_name} node)
-                    ;;
-                coffee)
-                    local result=$(run_execute_script_family ${base_file_name} coffee)
-                    ;;
-                erl)
-                    erl -compile $(run_strip_extension ${base_file_name})
-    	            local result=$(erl -noshell -s $(run_strip_extension ${base_file_name}) main -s init stop)
-                    ;;
-                hs)
-                    local result=$(run_execute_c_family ${base_file_name} ${file_extension} ghc -v0)
-                    ;;
-                rs)
-                    local result=$(run_execute_c_family ${base_file_name} ${file_extension} rustc)
-                    ;;
-                d)
-                    local result=$(run_execute_script_family ${base_file_name} rdmd)
-                    ;;
-                *)
-                    echo -n "Unknown file type"
-                    exit 1
-                ;;
+
+                c)      local result=$(run_execute_docker andystanton/cpp ${base_file_name} c) ;;
+                coffee) local result=$(run_execute_docker andystanton/coffee ${base_file_name}) ;;
+                cpp)    local result=$(run_execute_docker andystanton/cpp ${base_file_name} -std=c++11) ;;
+                d)      local result=$(run_execute_docker andystanton/d ${base_file_name}) ;;
+                go)     local result=$(run_execute_docker andystanton/go ${base_file_name}) ;;
+                groovy) local result=$(run_execute_docker andystanton/groovy ${base_file_name}) ;;
+                hs)     local result=$(run_execute_docker andystanton/haskell ${base_file_name} -v0) ;;
+                java)   local result=$(run_execute_docker andystanton/java ${base_file_name}) ;;
+                js)     local result=$(run_execute_docker andystanton/node ${base_file_name}) ;;
+                py)     local result=$(run_execute_docker andystanton/python ${base_file_name}) ;;
+                rb)     local result=$(run_execute_docker andystanton/ruby ${base_file_name}) ;;
+                rs)     local result=$(run_execute_docker andystanton/rust ${base_file_name}) ;;
+                scala)  local result=$(run_execute_docker andystanton/scala ${base_file_name}) ;;
+                *)      echo -n "Unknown file type"; exit 1 ;;
             esac
 
             if [[ -n ${answer} ]]; then
