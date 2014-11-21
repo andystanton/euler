@@ -97,19 +97,19 @@ function run_execute_code() {
 
             case ${file_extension} in
 
-                c)      local result=$(run_execute_docker andystanton/cpp ${base_file_name} c) ;;
-                coffee) local result=$(run_execute_docker andystanton/coffee ${base_file_name}) ;;
-                cpp)    local result=$(run_execute_docker andystanton/cpp ${base_file_name} -std=c++11) ;;
-                d)      local result=$(run_execute_docker andystanton/d ${base_file_name}) ;;
-                go)     local result=$(run_execute_docker andystanton/go ${base_file_name}) ;;
-                groovy) local result=$(run_execute_docker andystanton/groovy ${base_file_name}) ;;
-                hs)     local result=$(run_execute_docker andystanton/haskell ${base_file_name} -v0) ;;
-                java)   local result=$(run_execute_docker andystanton/java ${base_file_name}) ;;
-                js)     local result=$(run_execute_docker andystanton/node ${base_file_name}) ;;
-                py)     local result=$(run_execute_docker andystanton/python ${base_file_name}) ;;
-                rb)     local result=$(run_execute_docker andystanton/ruby ${base_file_name}) ;;
-                rs)     local result=$(run_execute_docker andystanton/rust ${base_file_name}) ;;
-                scala)  local result=$(run_execute_docker andystanton/scala ${base_file_name}) ;;
+                c)      local result=$(run_execute_docker andystanton/exec-cpp ${base_file_name} c) ;;
+                coffee) local result=$(run_execute_docker andystanton/exec-coffee ${base_file_name}) ;;
+                cpp)    local result=$(run_execute_docker andystanton/exec-cpp ${base_file_name} -std=c++11) ;;
+                d)      local result=$(run_execute_docker andystanton/exec-d ${base_file_name}) ;;
+                go)     local result=$(run_execute_docker andystanton/exec-go ${base_file_name}) ;;
+                groovy) local result=$(run_execute_docker andystanton/exec-groovy ${base_file_name}) ;;
+                hs)     local result=$(run_execute_docker andystanton/exec-haskell ${base_file_name} -v0) ;;
+                java)   local result=$(run_execute_docker andystanton/exec-java ${base_file_name}) ;;
+                js)     local result=$(run_execute_docker andystanton/exec-node ${base_file_name}) ;;
+                py)     local result=$(run_execute_docker andystanton/exec-python ${base_file_name}) ;;
+                rb)     local result=$(run_execute_docker andystanton/exec-ruby ${base_file_name}) ;;
+                rs)     local result=$(run_execute_docker andystanton/exec-rust ${base_file_name}) ;;
+                scala)  local result=$(run_execute_docker andystanton/exec-scala ${base_file_name}) ;;
                 *)      echo -n "Unknown file type"; exit 1 ;;
             esac
 
