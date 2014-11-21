@@ -12,29 +12,28 @@ text_lightblue=$(tput setaf 4)
 text_reset=$(tput sgr0)
 text_bold=$(tput bold)
 
+valid_extensions=('java' 'scala' 'rb' 'py' 'rs' 'go' 'cpp' 'js' 'coffee' 'groovy' 'c' 'd' 'hs')
+
 script_name=$(basename ${0}); pushd $(dirname ${0}) > /dev/null
 script_path=$(pwd -P); popd > /dev/null
 
-valid_extensions=('java' 'scala' 'rb' 'py' 'rs' 'go' 'cpp' 'js' 'coffee' 'groovy' 'c' 'd' 'hs')
-
 exercise_number=${1}
 target_language=${2}
-
-if [[ ${3} == "debug" ]]; then
-    run_debug=true
-fi
-
 exercise_path=${script_path}/${exercise_number}
 answer=$(cat 2> /dev/null ${exercise_path}/answer)
 
-function run_concatenate_list() {
+function euler_concatenate_list() {
+
     local separator=${1}; shift; local source_list=(${@}); local temp_ifs=${IFS}
     IFS=${separator}; local concatenated="${source_list[*]}"; IFS=${temp_ifs}
     echo ${concatenated}
+
 }
 
-function run_validate() {
+function euler_validate() {
+
     if [[ -z ${exercise_number} ]]; then
+
         local msg_1=" ${text_bold}Usage:"
         local msg_2=" ${text_reset}./${script_name}"
         local msg_3=" ${text_lightblue}<exercise number>"
@@ -42,19 +41,19 @@ function run_validate() {
 
         echo " ${msg_1}${msg_2}${msg_3}${msg_4}"
         exit 1
+
     fi
 
     if [[ ! -d ${exercise_path} ]]; then
+
         echo "${text_red}Error${text_reset} No such folder ${exercise_path}"
         exit 1
+
     fi
 }
 
-function run_get_extension() {
-    echo ${1} | sed -En 's/^.*\.(.*)$/\1/p'
-}
+function euler_execute_docker() {
 
-function run_execute_docker() {
     local image=${1}
     local srcfile=${2}
     local entrypoint_args=${3}
@@ -63,65 +62,70 @@ function run_execute_docker() {
 
     # in case of carriage return at end of result
     echo ${result} | perl -p -i -e 's/\r\n$/\n/g'
+
 }
 
-function run_execute_code() {
+function euler_execute_code() {
     local code_dir=${1}
 
-    local extension_string=$(run_concatenate_list '|' ${valid_extensions[@]})
+    local extension_string=$(euler_concatenate_list '|' ${valid_extensions[@]})
     local found_files=$(find -E ${code_dir} -regex ".*\.(${extension_string})")
 
-    local run_count=0
-    local run_success=0
+    local euler_count=0
+    local euler_success=0
 
     for found_file in ${found_files}; do
-        local file_extension=$(run_get_extension ${found_file})
+
+        local file_extension=$(echo ${found_file} | sed -En 's/^.*\.(.*)$/\1/p')
+
         if [[ -z ${target_language} || ${target_language} == ${file_extension} ]]; then
 
-            run_count=$((run_count + 1))
+            euler_count=$((euler_count + 1))
 
-            local base_file_name=$(basename ${found_file})
-            local base_dir_name=$(dirname ${found_file})
+            local base_filename=$(basename ${found_file})
+            local base_dirname=$(dirname ${found_file})
 
             echo
             echo "Solution: ${text_bold}${found_file}${text_reset}"
 
-            if [[ ${run_debug} == true ]]; then
-                echo "Source Details:"
-                echo " - ${text_lightblue}path${text_reset}: ${text_bold}${base_dir_name}${text_reset}"
-                echo " - ${text_lightblue}name${text_reset}: ${text_bold}${base_file_name}${text_reset}"
-                echo " - ${text_lightblue}extension${text_reset}: ${text_bold}${file_extension}${text_reset}"
-            fi
-
-            cd ${base_dir_name}
+            cd ${base_dirname}
 
             case ${file_extension} in
 
-                c)      local result=$(run_execute_docker andystanton/exec-cpp ${base_file_name} c) ;;
-                coffee) local result=$(run_execute_docker andystanton/exec-coffee ${base_file_name}) ;;
-                cpp)    local result=$(run_execute_docker andystanton/exec-cpp ${base_file_name} -std=c++11) ;;
-                d)      local result=$(run_execute_docker andystanton/exec-d ${base_file_name}) ;;
-                go)     local result=$(run_execute_docker andystanton/exec-go ${base_file_name}) ;;
-                groovy) local result=$(run_execute_docker andystanton/exec-groovy ${base_file_name}) ;;
-                hs)     local result=$(run_execute_docker andystanton/exec-haskell ${base_file_name} -v0) ;;
-                java)   local result=$(run_execute_docker andystanton/exec-java ${base_file_name}) ;;
-                js)     local result=$(run_execute_docker andystanton/exec-node ${base_file_name}) ;;
-                py)     local result=$(run_execute_docker andystanton/exec-python ${base_file_name}) ;;
-                rb)     local result=$(run_execute_docker andystanton/exec-ruby ${base_file_name}) ;;
-                rs)     local result=$(run_execute_docker andystanton/exec-rust ${base_file_name}) ;;
-                scala)  local result=$(run_execute_docker andystanton/exec-scala ${base_file_name}) ;;
+                c)      local result=$(euler_execute_docker andystanton/exec-cpp ${base_filename} c) ;;
+                coffee) local result=$(euler_execute_docker andystanton/exec-coffee ${base_filename}) ;;
+                cpp)    local result=$(euler_execute_docker andystanton/exec-cpp ${base_filename} -std=c++11) ;;
+                d)      local result=$(euler_execute_docker andystanton/exec-d ${base_filename}) ;;
+                go)     local result=$(euler_execute_docker andystanton/exec-go ${base_filename}) ;;
+                groovy) local result=$(euler_execute_docker andystanton/exec-groovy ${base_filename}) ;;
+                hs)     local result=$(euler_execute_docker andystanton/exec-haskell ${base_filename} -v0) ;;
+                java)   local result=$(euler_execute_docker andystanton/exec-java ${base_filename}) ;;
+                js)     local result=$(euler_execute_docker andystanton/exec-node ${base_filename}) ;;
+                py)     local result=$(euler_execute_docker andystanton/exec-python ${base_filename}) ;;
+                rb)     local result=$(euler_execute_docker andystanton/exec-ruby ${base_filename}) ;;
+                rs)     local result=$(euler_execute_docker andystanton/exec-rust ${base_filename}) ;;
+                scala)  local result=$(euler_execute_docker andystanton/exec-scala ${base_filename}) ;;
                 *)      echo -n "Unknown file type"; exit 1 ;;
+
             esac
 
             if [[ -n ${answer} ]]; then
+
                 if [[ ${answer} == ${result} ]]; then
+
                     local result_text=${text_green}${result}${text_reset}
-                    run_success=$((run_success + 1))
+                    euler_success=$((euler_success + 1))
+
                 else
+
                     local result_text=${text_red}${result}${text_reset}
+
                 fi
+
             else
+
                 local result_text=${result}
+
             fi
 
             echo "Result: ${result_text}"
@@ -129,23 +133,29 @@ function run_execute_code() {
     done
 
     echo
-    if [[ -n ${answer} && ${run_count} > 0 ]]; then
-        if [[ ${run_success} == ${run_count} ]]; then
-            echo "${text_green}Success!${text_reset} ${text_bold}${run_success}/${run_count}${text_reset}"
+
+    if [[ -n ${answer} && ${euler_count} > 0 ]]; then
+
+        if [[ ${euler_success} == ${euler_count} ]]; then
+
+            echo "${text_green}Success!${text_reset} ${text_bold}${euler_success}/${euler_count}${text_reset}"
             exit 0
+
         else
-            echo "${text_red}Failure!${text_reset} ${text_bold}${run_success}/${run_count}${text_reset}"
+
+            echo "${text_red}Failure!${text_reset} ${text_bold}${euler_success}/${euler_count}${text_reset}"
             exit 1
+
         fi
+
     else
-        echo "Ran ${run_count}"
+        echo "Ran ${euler_count}"
         exit 0
     fi
 
-
 }
 
-run_validate
+euler_validate
 
 echo
 echo "${text_lightblue}Project Euler${text_reset} ${text_bold}problem ${exercise_number}${text_reset}"
@@ -163,4 +173,4 @@ if [[ -n ${answer} ]]; then
     done;
 fi
 
-run_execute_code ${exercise_path}
+euler_execute_code ${exercise_path}
