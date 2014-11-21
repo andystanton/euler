@@ -12,7 +12,7 @@ text_lightblue=$(tput setaf 4)
 text_reset=$(tput sgr0)
 text_bold=$(tput bold)
 
-valid_extensions=('java' 'scala' 'rb' 'py' 'rs' 'go' 'cpp' 'js' 'coffee' 'groovy' 'c' 'd' 'hs')
+valid_extensions=('java' 'scala' 'rb' 'py' 'rs' 'go' 'cpp' 'js' 'coffee' 'groovy' 'c' 'd' 'hs' 'erl')
 
 script_name=$(basename ${0}); pushd $(dirname ${0}) > /dev/null
 script_path=$(pwd -P); popd > /dev/null
@@ -110,6 +110,7 @@ function euler_execute() {
                 coffee) local result=$(euler_execute_docker andystanton/exec-coffee ${base_filename}) ;;
                 cpp)    local result=$(euler_execute_docker andystanton/exec-cpp ${base_filename} -std=c++11) ;;
                 d)      local result=$(euler_execute_docker andystanton/exec-d ${base_filename}) ;;
+                erl)    local result=$(euler_execute_docker andystanton/exec-erlang ${base_filename} main) ;;
                 go)     local result=$(euler_execute_docker andystanton/exec-go ${base_filename}) ;;
                 groovy) local result=$(euler_execute_docker andystanton/exec-groovy ${base_filename}) ;;
                 hs)     local result=$(euler_execute_docker andystanton/exec-haskell ${base_filename} -v0) ;;
