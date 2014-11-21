@@ -1,4 +1,4 @@
-class ClassicRecursion {
+public class ClassicRecursion {
     private static final int MAX = 4000000;
 
     private static int sumFib(int first, int second) {
