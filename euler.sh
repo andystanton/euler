@@ -26,7 +26,7 @@ function euler_concatenate_list() {
 
     local separator=${1}; shift; local source_list=(${@}); local temp_ifs=${IFS}
     IFS=${separator}; local concatenated="${source_list[*]}"; IFS=${temp_ifs}
-    echo ${concatenated}
+    echo -e ${concatenated}
 
 }
 
@@ -39,16 +39,31 @@ function euler_validate() {
         local msg_3=" ${text_lightblue}<exercise number>"
         local msg_4=" ${text_reset}"
 
-        echo " ${msg_1}${msg_2}${msg_3}${msg_4}"
+        echo -e " ${msg_1}${msg_2}${msg_3}${msg_4}"
         exit 1
 
     fi
 
     if [[ ! -d ${exercise_path} ]]; then
 
-        echo "${text_red}Error${text_reset} No such folder ${exercise_path}"
+        echo -e "${text_red}Error${text_reset} No such folder ${exercise_path}"
         exit 1
 
+    fi
+}
+
+function euler_welcome() {
+    echo -e "\n${text_lightblue}Project Euler${text_reset} ${text_bold}problem ${exercise_number}${text_reset}\n"
+
+    if [[ -f ${exercise_path}/problem ]]; then
+        cat ${exercise_path}/problem | fold -w 80 -s
+    fi
+
+    if [[ -n ${answer} ]]; then
+        echo -e "\n${text_bold}The expected result is:${text_reset}"
+        for line in ${answer}; do
+            echo -e " - ${text_lightblue}${line}${text_reset}"
+        done;
     fi
 }
 
@@ -61,11 +76,11 @@ function euler_execute_docker() {
     local result=$(docker run -t --rm -w ${workdir} -v $(pwd -P):${workdir} ${image} ${srcfile} ${entrypoint_args})
 
     # in case of carriage return at end of result
-    echo ${result} | perl -p -i -e 's/\r\n$/\n/g'
+    echo -e ${result} | perl -p -i -e 's/\r\n$/\n/g'
 
 }
 
-function euler_execute_code() {
+function euler_execute() {
     local code_dir=${1}
 
     local extension_string=$(euler_concatenate_list '|' ${valid_extensions[@]})
@@ -76,7 +91,7 @@ function euler_execute_code() {
 
     for found_file in ${found_files}; do
 
-        local file_extension=$(echo ${found_file} | sed -En 's/^.*\.(.*)$/\1/p')
+        local file_extension=$(echo -e ${found_file} | sed -En 's/^.*\.(.*)$/\1/p')
 
         if [[ -z ${target_language} || ${target_language} == ${file_extension} ]]; then
 
@@ -85,8 +100,7 @@ function euler_execute_code() {
             local base_filename=$(basename ${found_file})
             local base_dirname=$(dirname ${found_file})
 
-            echo
-            echo "Solution: ${text_bold}${found_file}${text_reset}"
+            echo -e "\nSolution: ${text_bold}${found_file}${text_reset}"
 
             cd ${base_dirname}
 
@@ -105,7 +119,7 @@ function euler_execute_code() {
                 rb)     local result=$(euler_execute_docker andystanton/exec-ruby ${base_filename}) ;;
                 rs)     local result=$(euler_execute_docker andystanton/exec-rust ${base_filename}) ;;
                 scala)  local result=$(euler_execute_docker andystanton/exec-scala ${base_filename}) ;;
-                *)      echo -n "Unknown file type"; exit 1 ;;
+                *)      echo -e -n "Unknown file type"; exit 1 ;;
 
             esac
 
@@ -128,28 +142,26 @@ function euler_execute_code() {
 
             fi
 
-            echo "Result: ${result_text}"
+            echo -e "Result: ${result_text}"
         fi
     done
-
-    echo
 
     if [[ -n ${answer} && ${euler_count} > 0 ]]; then
 
         if [[ ${euler_success} == ${euler_count} ]]; then
 
-            echo "${text_green}Success!${text_reset} ${text_bold}${euler_success}/${euler_count}${text_reset}"
+            echo -e "\n${text_green}Success!${text_reset} ${text_bold}${euler_success}/${euler_count}${text_reset}"
             exit 0
 
         else
 
-            echo "${text_red}Failure!${text_reset} ${text_bold}${euler_success}/${euler_count}${text_reset}"
+            echo -e "\n${text_red}Failure!${text_reset} ${text_bold}${euler_success}/${euler_count}${text_reset}"
             exit 1
 
         fi
 
     else
-        echo "Ran ${euler_count}"
+        echo -e "\nRan ${euler_count}"
         exit 0
     fi
 
@@ -157,20 +169,6 @@ function euler_execute_code() {
 
 euler_validate
 
-echo
-echo "${text_lightblue}Project Euler${text_reset} ${text_bold}problem ${exercise_number}${text_reset}"
-echo
+euler_welcome
 
-if [[ -f ${exercise_path}/problem ]]; then
-    cat ${exercise_path}/problem | fold -w 80 -s
-fi
-
-if [[ -n ${answer} ]]; then
-    echo
-    echo "${text_bold}The expected result is:${text_reset}"
-    for line in ${answer}; do
-        echo " - ${text_lightblue}${line}${text_reset}"
-    done;
-fi
-
-euler_execute_code ${exercise_path}
+euler_execute ${exercise_path}
