@@ -152,15 +152,11 @@ function euler_execute() {
     if [[ -n ${answer} && ${euler_count} > 0 ]]; then
 
         if [[ ${euler_success} == ${euler_count} ]]; then
-
             echo -e "\n${text_green}Success!${text_reset} ${text_bold}${euler_success}/${euler_count} Passed${text_reset}"
             exit 0
-
         else
-
             echo -e "\n${text_red}Failure!${text_reset} ${text_bold}${euler_success}/${euler_count} Passed${text_reset}"
             exit 1
-
         fi
 
     else
