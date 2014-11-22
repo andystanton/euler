@@ -106,22 +106,22 @@ function euler_execute() {
 
             case ${file_extension} in
 
-                c)      local result=$(euler_execute_docker andystanton/exec-cpp ${base_filename} c) ;;
-                coffee) local result=$(euler_execute_docker andystanton/exec-coffee ${base_filename}) ;;
-                cpp)    local result=$(euler_execute_docker andystanton/exec-cpp ${base_filename} -std=c++11) ;;
-                cs)     local result=$(euler_execute_docker andystanton/exec-mono ${base_filename}) ;;
-                d)      local result=$(euler_execute_docker andystanton/exec-d ${base_filename}) ;;
-                erl)    local result=$(euler_execute_docker andystanton/exec-erlang ${base_filename} main) ;;
-                go)     local result=$(euler_execute_docker andystanton/exec-go ${base_filename}) ;;
-                groovy) local result=$(euler_execute_docker andystanton/exec-groovy ${base_filename}) ;;
-                hs)     local result=$(euler_execute_docker andystanton/exec-haskell ${base_filename} -v0) ;;
-                java)   local result=$(euler_execute_docker andystanton/exec-java ${base_filename}) ;;
-                js)     local result=$(euler_execute_docker andystanton/exec-node ${base_filename}) ;;
-                py)     local result=$(euler_execute_docker andystanton/exec-python ${base_filename}) ;;
-                rb)     local result=$(euler_execute_docker andystanton/exec-ruby ${base_filename}) ;;
-                rs)     local result=$(euler_execute_docker andystanton/exec-rust ${base_filename}) ;;
-                scala)  local result=$(euler_execute_docker andystanton/exec-scala ${base_filename}) ;;
-                m)      local result=$(euler_execute_docker andystanton/exec-objc ${base_filename}) ;;
+                c)      local result=$(euler_execute_docker andystanton/exec-cpp        ${base_filename} c) ;;
+                coffee) local result=$(euler_execute_docker andystanton/exec-coffee     ${base_filename}) ;;
+                cpp)    local result=$(euler_execute_docker andystanton/exec-cpp        ${base_filename} -std=c++11) ;;
+                cs)     local result=$(euler_execute_docker andystanton/exec-mono       ${base_filename}) ;;
+                d)      local result=$(euler_execute_docker andystanton/exec-d          ${base_filename}) ;;
+                erl)    local result=$(euler_execute_docker andystanton/exec-erlang     ${base_filename} main) ;;
+                go)     local result=$(euler_execute_docker andystanton/exec-go         ${base_filename}) ;;
+                groovy) local result=$(euler_execute_docker andystanton/exec-groovy     ${base_filename}) ;;
+                hs)     local result=$(euler_execute_docker andystanton/exec-haskell    ${base_filename} -v0) ;;
+                java)   local result=$(euler_execute_docker andystanton/exec-java       ${base_filename}) ;;
+                js)     local result=$(euler_execute_docker andystanton/exec-node       ${base_filename}) ;;
+                py)     local result=$(euler_execute_docker andystanton/exec-python     ${base_filename}) ;;
+                rb)     local result=$(euler_execute_docker andystanton/exec-ruby       ${base_filename}) ;;
+                rs)     local result=$(euler_execute_docker andystanton/exec-rust       ${base_filename}) ;;
+                scala)  local result=$(euler_execute_docker andystanton/exec-scala      ${base_filename}) ;;
+                m)      local result=$(euler_execute_docker andystanton/exec-objc       ${base_filename}) ;;
                 *)      echo -e -n "Unknown file type"; exit 1 ;;
 
             esac
