@@ -53,6 +53,7 @@ function euler_validate() {
 }
 
 function euler_welcome() {
+
     echo -e "\n${text_lightblue}Project Euler${text_reset} ${text_bold}problem ${exercise_number}${text_reset}\n"
 
     if [[ -f ${exercise_path}/problem ]]; then
@@ -129,20 +130,14 @@ function euler_execute() {
             if [[ -n ${answer} ]]; then
 
                 if [[ ${answer} == ${result} ]]; then
-
                     local result_text=${text_green}${result}${text_reset}
                     euler_success=$((euler_success + 1))
-
                 else
-
                     local result_text=${text_red}${result}${text_reset}
-
                 fi
 
             else
-
                 local result_text=${result}
-
             fi
 
             echo -e "Result: ${result_text}"
