@@ -73,7 +73,7 @@ function euler_execute_docker() {
     local srcfile=${2}
     local entrypoint_args=${3}
     local workdir=/data/euler
-    local result=$(docker run -t --rm -w ${workdir} -v $(pwd -P):${workdir} ${image} ${srcfile} ${entrypoint_args})
+    local result=$(docker run -t --rm -w ${workdir} -v $(pwd -P)/${srcfile}:${workdir}/${srcfile} ${image} ${srcfile} ${entrypoint_args})
 
     # in case of carriage return at end of result
     echo -e ${result} | perl -p -i -e 's/\r\n$/\n/g'
