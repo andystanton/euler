@@ -12,7 +12,7 @@ text_lightblue=$(tput setaf 4)
 text_reset=$(tput sgr0)
 text_bold=$(tput bold)
 
-valid_extensions=('java' 'scala' 'rb' 'py' 'rs' 'go' 'cpp' 'js' 'coffee' 'groovy' 'c' 'd' 'hs' 'erl' 'cs' 'm')
+valid_extensions=('java' 'scala' 'rb' 'py' 'rs' 'go' 'cpp' 'js' 'coffee' 'groovy' 'c' 'd' 'hs' 'erl' 'cs' 'm' 'php')
 
 script_name=$(basename ${0}); pushd $(dirname ${0}) > /dev/null
 script_path=$(pwd -P); popd > /dev/null
@@ -122,6 +122,7 @@ function euler_execute() {
                 hs)     local result=$(euler_execute_docker andystanton/exec-haskell    ${base_filename} -v0) ;;
                 java)   local result=$(euler_execute_docker andystanton/exec-java       ${base_filename}) ;;
                 js)     local result=$(euler_execute_docker andystanton/exec-node       ${base_filename}) ;;
+                php)    local result=$(euler_execute_docker andystanton/exec-php        ${base_filename}) ;;
                 py)     local result=$(euler_execute_docker andystanton/exec-python     ${base_filename}) ;;
                 rb)     local result=$(euler_execute_docker andystanton/exec-ruby       ${base_filename}) ;;
                 rs)     local result=$(euler_execute_docker andystanton/exec-rust       ${base_filename}) ;;
