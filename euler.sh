@@ -54,7 +54,8 @@ function euler_validate() {
 
 function euler_welcome() {
 
-    echo -e "\n${text_lightblue}Project Euler${text_reset} ${text_bold}problem ${exercise_number}${text_reset}\n"
+    echo -en "\n${text_lightblue}Project Euler${text_reset} "
+    echo -e  "${text_bold}problem ${exercise_number}${text_reset}\n"
 
     if [[ -f ${exercise_path}/problem ]]; then
         cat ${exercise_path}/problem | fold -w 80 -s
@@ -74,7 +75,10 @@ function euler_execute_docker() {
     local srcfile=${2}
     local entrypoint_args=${3}
     local workdir=/data/euler
-    local result=$(docker run -t --rm -w ${workdir} -v $(pwd -P)/${srcfile}:${workdir}/${srcfile} ${image} ${srcfile} ${entrypoint_args})
+    local result=$(docker run -t --rm \
+                    -w ${workdir} \
+                    -v $(pwd -P)/${srcfile}:${workdir}/${srcfile} \
+                    ${image} ${srcfile} ${entrypoint_args})
 
     # in case of carriage return at end of result
     echo -e ${result} | perl -p -i -e 's/\r\n$/\n/g'
@@ -147,10 +151,12 @@ function euler_execute() {
     if [[ -n ${answer} && ${euler_count} > 0 ]]; then
 
         if [[ ${euler_success} == ${euler_count} ]]; then
-            echo -e "\n${text_green}Success!${text_reset} ${text_bold}${euler_success}/${euler_count} Passed${text_reset}"
+            echo -en "\n${text_green}Success!${text_reset} "
+            echo -e  "${text_bold}${euler_success}/${euler_count} Passed${text_reset}"
             exit 0
         else
-            echo -e "\n${text_red}Failure!${text_reset} ${text_bold}${euler_success}/${euler_count} Passed${text_reset}"
+            echo -en "\n${text_red}Failure!${text_reset} "
+            echo -e  "${text_bold}${euler_success}/${euler_count} Passed${text_reset}"
             exit 1
         fi
 
