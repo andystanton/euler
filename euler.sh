@@ -12,7 +12,7 @@ text_lightblue=$(tput setaf 4)
 text_reset=$(tput sgr0)
 text_bold=$(tput bold)
 
-valid_extensions=('java' 'scala' 'rb' 'py' 'rs' 'go' 'cpp' 'js' 'coffee' 'groovy' 'c' 'd' 'hs' 'erl' 'cs' 'm' 'php')
+valid_extensions=('java' 'scala' 'rb' 'py' 'rs' 'go' 'cpp' 'js' 'coffee' 'groovy' 'c' 'd' 'hs' 'erl' 'cs' 'm' 'php' 'fs' 'sh')
 
 script_name=$(basename ${0}); pushd $(dirname ${0}) > /dev/null
 script_path=$(pwd -P); popd > /dev/null
@@ -114,9 +114,10 @@ function euler_execute() {
                 c)      local result=$(euler_execute_docker andystanton/exec-cpp        ${base_filename} c) ;;
                 coffee) local result=$(euler_execute_docker andystanton/exec-coffee     ${base_filename}) ;;
                 cpp)    local result=$(euler_execute_docker andystanton/exec-cpp        ${base_filename} -std=c++11) ;;
-                cs)     local result=$(euler_execute_docker andystanton/exec-mono       ${base_filename}) ;;
+                cs)     local result=$(euler_execute_docker andystanton/exec-mono       ${base_filename} c#) ;;
                 d)      local result=$(euler_execute_docker andystanton/exec-d          ${base_filename}) ;;
                 erl)    local result=$(euler_execute_docker andystanton/exec-erlang     ${base_filename} main) ;;
+                fs)     local result=$(euler_execute_docker andystanton/exec-mono       ${base_filename} f#) ;;
                 go)     local result=$(euler_execute_docker andystanton/exec-go         ${base_filename}) ;;
                 groovy) local result=$(euler_execute_docker andystanton/exec-groovy     ${base_filename}) ;;
                 hs)     local result=$(euler_execute_docker andystanton/exec-haskell    ${base_filename} -v0) ;;
@@ -127,6 +128,7 @@ function euler_execute() {
                 rb)     local result=$(euler_execute_docker andystanton/exec-ruby       ${base_filename}) ;;
                 rs)     local result=$(euler_execute_docker andystanton/exec-rust       ${base_filename}) ;;
                 scala)  local result=$(euler_execute_docker andystanton/exec-scala      ${base_filename}) ;;
+                sh)     local result=$(euler_execute_docker andystanton/exec-bash       ${base_filename}) ;;
                 m)      local result=$(euler_execute_docker andystanton/exec-objc       ${base_filename}) ;;
                 *)      echo -e -n "Unknown file type"; exit 1 ;;
 
