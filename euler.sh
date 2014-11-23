@@ -26,6 +26,7 @@ valid_extensions=(
     'hs'
     'java'
     'js'
+    'lisp'
     'm'
     'php'
     'py'
@@ -145,6 +146,7 @@ function euler_execute() {
                 hs)     local result=$(euler_execute_docker andystanton/exec-haskell    ${base_filename} -v0) ;;
                 java)   local result=$(euler_execute_docker andystanton/exec-java       ${base_filename}) ;;
                 js)     local result=$(euler_execute_docker andystanton/exec-node       ${base_filename}) ;;
+                lisp)   local result=$(euler_execute_docker andystanton/exec-lisp       ${base_filename}) ;;
                 php)    local result=$(euler_execute_docker andystanton/exec-php        ${base_filename}) ;;
                 py)     local result=$(euler_execute_docker andystanton/exec-python     ${base_filename}) ;;
                 rb)     local result=$(euler_execute_docker andystanton/exec-ruby       ${base_filename}) ;;
