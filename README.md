@@ -50,3 +50,8 @@ To run a solution to a given problem for a particular language, use the language
 ./euler.sh 1 java
 ./euler.sh 1 py
 ```
+
+## Links
+
+ * [Project Euler](https://projecteuler.net)
+ * [Docker Exec](https://github.com/andystanton/docker-exec)
