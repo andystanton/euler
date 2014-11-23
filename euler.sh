@@ -28,6 +28,7 @@ valid_extensions=(
     'js'
     'lisp'
     'm'
+    'pl'
     'php'
     'py'
     'rb'
@@ -147,13 +148,14 @@ function euler_execute() {
                 java)   local result=$(euler_execute_docker andystanton/exec-java       ${base_filename}) ;;
                 js)     local result=$(euler_execute_docker andystanton/exec-node       ${base_filename}) ;;
                 lisp)   local result=$(euler_execute_docker andystanton/exec-lisp       ${base_filename}) ;;
+                m)      local result=$(euler_execute_docker andystanton/exec-objc       ${base_filename}) ;;
+                pl)     local result=$(euler_execute_docker andystanton/exec-perl       ${base_filename}) ;;
                 php)    local result=$(euler_execute_docker andystanton/exec-php        ${base_filename}) ;;
                 py)     local result=$(euler_execute_docker andystanton/exec-python     ${base_filename}) ;;
                 rb)     local result=$(euler_execute_docker andystanton/exec-ruby       ${base_filename}) ;;
                 rs)     local result=$(euler_execute_docker andystanton/exec-rust       ${base_filename}) ;;
                 scala)  local result=$(euler_execute_docker andystanton/exec-scala      ${base_filename}) ;;
                 sh)     local result=$(euler_execute_docker andystanton/exec-bash       ${base_filename}) ;;
-                m)      local result=$(euler_execute_docker andystanton/exec-objc       ${base_filename}) ;;
                 *)      echo -e -n "Unknown file type"; exit 1 ;;
 
             esac
