@@ -12,7 +12,28 @@ text_lightblue=$(tput setaf 4)
 text_reset=$(tput sgr0)
 text_bold=$(tput bold)
 
-valid_extensions=('java' 'scala' 'rb' 'py' 'rs' 'go' 'cpp' 'js' 'coffee' 'groovy' 'c' 'd' 'hs' 'erl' 'cs' 'm' 'php' 'fs' 'sh')
+valid_extensions=(
+    'c'
+    'clj'
+    'coffee'
+    'cpp'
+    'cs'
+    'd'
+    'erl'
+    'fs'
+    'go'
+    'groovy'
+    'hs'
+    'java'
+    'js'
+    'm'
+    'php'
+    'py'
+    'rb'
+    'rs'
+    'scala'
+    'sh'
+)
 
 script_name=$(basename ${0}); pushd $(dirname ${0}) > /dev/null
 script_path=$(pwd -P); popd > /dev/null
@@ -112,6 +133,7 @@ function euler_execute() {
             case ${file_extension} in
 
                 c)      local result=$(euler_execute_docker andystanton/exec-cpp        ${base_filename} c) ;;
+                clj)    local result=$(euler_execute_docker andystanton/exec-clojure    ${base_filename}) ;;
                 coffee) local result=$(euler_execute_docker andystanton/exec-coffee     ${base_filename}) ;;
                 cpp)    local result=$(euler_execute_docker andystanton/exec-cpp        ${base_filename} -std=c++11) ;;
                 cs)     local result=$(euler_execute_docker andystanton/exec-mono       ${base_filename} c#) ;;
