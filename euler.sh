@@ -109,6 +109,8 @@ function euler_execute_docker() {
 }
 
 function euler_execute() {
+    local start_time=$(date +%s)
+
     local code_dir=${1}
 
     local extension_string=$(euler_concatenate_list '|' ${valid_extensions[@]})
@@ -177,20 +179,23 @@ function euler_execute() {
         fi
     done
 
+    local end_time=$(date +%s)
+    local run_time=$(echo "${end_time} - ${start_time}" | bc)
+
     if [[ -n ${answer} && ${euler_count} > 0 ]]; then
 
         if [[ ${euler_success} == ${euler_count} ]]; then
             echo -en "\n${text_green}Success!${text_reset} "
-            echo -e  "${text_bold}${euler_success}/${euler_count} Passed${text_reset}"
+            echo -e  "${text_bold}${euler_success}/${euler_count} Passed in ${run_time}s${text_reset}"
             exit 0
         else
             echo -en "\n${text_red}Failure!${text_reset} "
-            echo -e  "${text_bold}${euler_success}/${euler_count} Passed${text_reset}"
+            echo -e  "${text_bold}${euler_success}/${euler_count} Passed in ${run_time}s${text_reset}"
             exit 1
         fi
 
     else
-        echo -e "\nRan ${euler_count}"
+        echo -e "\nRan ${euler_count} in ${run_time}s"
         exit 0
     fi
 
