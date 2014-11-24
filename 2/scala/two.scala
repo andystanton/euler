@@ -11,6 +11,6 @@ def fibs(max: Int): Seq[Int] = {
   }
 }
 
-val fibsTo50 = fibs(4000000)
+val fibsTo4Million = fibs(4000000)
 
-println(fibsTo50.filter(_ % 2 == 0).sum)
+println(fibsTo4Million.filter(_ % 2 == 0).sum)
