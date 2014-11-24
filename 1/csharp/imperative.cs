@@ -1,6 +1,6 @@
 using System;
 
-public class One
+public class Imperative
 {
     static public void Main ()
     {

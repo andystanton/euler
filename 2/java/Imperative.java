@@ -1,4 +1,4 @@
-public class ClassicFor {
+public class Imperative {
     private static final int MAX = 4000000;
 
     public static void main(String[] args) {
