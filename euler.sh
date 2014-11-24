@@ -28,6 +28,7 @@ valid_extensions=(
     'js'
     'lisp'
     'm'
+    'ml'
     'pl'
     'php'
     'py'
@@ -151,6 +152,7 @@ function euler_execute() {
                 js)     local result=$(euler_execute_docker andystanton/exec-node       ${base_filename}) ;;
                 lisp)   local result=$(euler_execute_docker andystanton/exec-lisp       ${base_filename}) ;;
                 m)      local result=$(euler_execute_docker andystanton/exec-objc       ${base_filename} -std=c99) ;;
+                ml)     local result=$(euler_execute_docker andystanton/exec-ocaml      ${base_filename}) ;;
                 pl)     local result=$(euler_execute_docker andystanton/exec-perl       ${base_filename}) ;;
                 php)    local result=$(euler_execute_docker andystanton/exec-php        ${base_filename}) ;;
                 py)     local result=$(euler_execute_docker andystanton/exec-python     ${base_filename}) ;;
