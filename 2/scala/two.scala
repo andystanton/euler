@@ -1,13 +1,11 @@
-import annotation.tailrec
-
 def rfibs(max: Int): Seq[Int] = {
   rfibs(Seq(2, 1), max)
 }
 
-@tailrec def rfibs(fibSeq: Seq[Int], max: Int): Seq[Int] = {
-  fibSeq.head + fibSeq.tail.head match {
-    case valid: Int if valid < max => rfibs(Seq(valid) ++ fibSeq, max)
-    case _ => fibSeq
+@annotation.tailrec def rfibs(fibs: Seq[Int], max: Int): Seq[Int] = {
+  fibs.head + fibs.tail.head match {
+    case next: Int if next <= max => rfibs(Seq(next) ++ fibs, max)
+    case _ => fibs
   }
 }
 
