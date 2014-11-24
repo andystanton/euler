@@ -11,7 +11,6 @@ int main (int argc, const char * argv[])
             sum += i;
         }
     }
-
     printf ("%i\n", sum);
     return 0;
 }
