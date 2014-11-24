@@ -30,7 +30,7 @@ If present, these are displayed when the script is run and in particular if ther
  * gnu core utils & perl
  * docker 1.3
 
-A good internet connection and disk space is also required as the Docker images are several hundred MB each and 15+ languages are supported.
+A good internet connection and disk space is also required as the Docker images are several hundred MB each and 20+ languages are supported.
 
 ## Quick Start
 
