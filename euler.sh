@@ -41,9 +41,10 @@ valid_extensions=(
 script_name=$(basename ${0}); pushd $(dirname ${0}) > /dev/null
 script_path=$(pwd -P); popd > /dev/null
 
-exercise_number=${1}
+exercise_number=$((10#${1}))
+exercise_number_padded=$(printf "%03d" ${exercise_number})
 target_language=${2}
-exercise_path=${script_path}/${exercise_number}
+exercise_path=${script_path}/${exercise_number_padded}
 answer=$(cat 2> /dev/null ${exercise_path}/answer)
 
 function euler_concatenate_list() {
