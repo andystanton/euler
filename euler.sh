@@ -59,12 +59,7 @@ function euler_validate() {
 
     if [[ -z ${exercise_number} ]]; then
 
-        local msg_1=" ${text_bold}Usage:"
-        local msg_2=" ${text_reset}./${script_name}"
-        local msg_3=" ${text_lightblue}<exercise number>"
-        local msg_4=" ${text_reset}"
-
-        echo -e " ${msg_1}${msg_2}${msg_3}${msg_4}"
+        echo -e " ${text_bold}Usage: ${text_reset}./${script_name} ${text_lightblue}<exercise number>${text_reset}"
         exit 1
 
     fi
