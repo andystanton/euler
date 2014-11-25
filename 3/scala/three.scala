@@ -5,7 +5,7 @@ def sundaramSieve(max: Long): Seq[Long] = {
   range.diff(for {
     i <- range
     j <- range
-    candidate = i + j + 2 * i * j if (1 <= i) && (i <= j) && (candidate <= max)
+    candidate = i + j + (2 * i * j) if i <= j && (candidate <= max)
   } yield candidate).map(_ * 2 + 1)
 }
 
