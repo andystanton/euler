@@ -1,5 +1,6 @@
 val target: Long = 600851475143L
 
+// http://en.wikipedia.org/wiki/Sieve_of_Sundaram
 def sundaramSieve(max: Long): Seq[Long] = {
   val range = (2L to max)
   range.diff(for {
