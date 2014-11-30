@@ -101,7 +101,7 @@ function euler_execute_docker() {
                     ${image} ${srcfile} ${entrypoint_args})
 
     # in case of carriage return at end of result
-    echo -e ${result} | perl -p -i -e 's/\r\n$/\n/g'
+    echo -e ${result} | perl -p -e 's/\r\n$/\n/g'
 
 }
 
