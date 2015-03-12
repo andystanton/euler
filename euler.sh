@@ -90,12 +90,17 @@ function euler_welcome() {
 }
 
 function euler_execute_docker() {
+    if [[ ${OSTYPE} == "linux-gnu" ]]; then
+        docker_cmd="sudo docker"
+    else
+        docker_cmd="docker"
+    fi
 
     local image=${1}
     local srcfile=${2}
     local entrypoint_args=${3}
     local workdir=/data/euler
-    local result=$(docker run -t --rm \
+    local result=$(${docker_cmd} run -t --rm \
                     -w ${workdir} \
                     -v $(pwd -P)/${srcfile}:${workdir}/${srcfile} \
                     ${image} ${srcfile} ${entrypoint_args})
@@ -105,13 +110,25 @@ function euler_execute_docker() {
 
 }
 
+function find_source_in_dir() {
+    local code_dir=${1}
+    local extension_string=${2}
+    if [[ ${OSTYPE} == darwin* ]]; then
+        find -E ${code_dir} -regex ".*\.(${extension_string})"
+    else
+        find ${code_dir} -regextype posix-extended -regex ".*\.(${extension_string})"
+    fi
+}
+
 function euler_execute() {
     local start_time=$(date +%s)
 
     local code_dir=${1}
 
     local extension_string=$(euler_concatenate_list '|' ${valid_extensions[@]})
-    local found_files=$(find -E ${code_dir} -regex ".*\.(${extension_string})")
+    #local found_files=$(find -E ${code_dir} -regex ".*\.(${extension_string})")
+    #local found_files=$(find ${code_dir} -regextype posix-extended -regex ".*\.(${extension_string})")
+    local found_files=$(find_source_in_dir ${code_dir} ${extension_string})
 
     local euler_count=0
     local euler_success=0
