@@ -148,29 +148,29 @@ function euler_execute() {
 
             case ${file_extension} in
 
-                c)      local result=$(euler_execute_docker reentry/exec-cpp        ${base_filename}) ;;
-                clj)    local result=$(euler_execute_docker reentry/exec-clojure    ${base_filename}) ;;
-                coffee) local result=$(euler_execute_docker reentry/exec-coffee     ${base_filename}) ;;
-                cpp)    local result=$(euler_execute_docker reentry/exec-cpp        ${base_filename} -std=c++14) ;;
-                cs)     local result=$(euler_execute_docker reentry/exec-mono       ${base_filename} c#) ;;
-                d)      local result=$(euler_execute_docker reentry/exec-d          ${base_filename}) ;;
-                erl)    local result=$(euler_execute_docker reentry/exec-erlang     ${base_filename} main) ;;
-                fs)     local result=$(euler_execute_docker reentry/exec-mono       ${base_filename} f#) ;;
-                go)     local result=$(euler_execute_docker reentry/exec-go         ${base_filename}) ;;
-                groovy) local result=$(euler_execute_docker reentry/exec-groovy     ${base_filename}) ;;
-                hs)     local result=$(euler_execute_docker reentry/exec-haskell    ${base_filename} -v0) ;;
-                java)   local result=$(euler_execute_docker reentry/exec-java       ${base_filename}) ;;
-                js)     local result=$(euler_execute_docker reentry/exec-node       ${base_filename}) ;;
-                lisp)   local result=$(euler_execute_docker reentry/exec-lisp       ${base_filename}) ;;
-                m)      local result=$(euler_execute_docker reentry/exec-objc       ${base_filename} -std=c99) ;;
-                ml)     local result=$(euler_execute_docker reentry/exec-ocaml      ${base_filename}) ;;
-                pl)     local result=$(euler_execute_docker reentry/exec-perl       ${base_filename}) ;;
-                php)    local result=$(euler_execute_docker reentry/exec-php        ${base_filename}) ;;
-                py)     local result=$(euler_execute_docker reentry/exec-python     ${base_filename}) ;;
-                rb)     local result=$(euler_execute_docker reentry/exec-ruby       ${base_filename}) ;;
-                rs)     local result=$(euler_execute_docker reentry/exec-rust       ${base_filename}) ;;
-                scala)  local result=$(euler_execute_docker reentry/exec-scala      ${base_filename}) ;;
-                sh)     local result=$(euler_execute_docker reentry/exec-bash       ${base_filename}) ;;
+                c)      local result=$(euler_execute_docker dexec/cpp        ${base_filename}) ;;
+                clj)    local result=$(euler_execute_docker dexec/clojure    ${base_filename}) ;;
+                coffee) local result=$(euler_execute_docker dexec/coffee     ${base_filename}) ;;
+                cpp)    local result=$(euler_execute_docker dexec/cpp        ${base_filename} -std=c++14) ;;
+                cs)     local result=$(euler_execute_docker dexec/mono       ${base_filename} c#) ;;
+                d)      local result=$(euler_execute_docker dexec/d          ${base_filename}) ;;
+                erl)    local result=$(euler_execute_docker dexec/erlang     ${base_filename} main) ;;
+                fs)     local result=$(euler_execute_docker dexec/mono       ${base_filename} f#) ;;
+                go)     local result=$(euler_execute_docker dexec/go         ${base_filename}) ;;
+                groovy) local result=$(euler_execute_docker dexec/groovy     ${base_filename}) ;;
+                hs)     local result=$(euler_execute_docker dexec/haskell    ${base_filename} -v0) ;;
+                java)   local result=$(euler_execute_docker dexec/java       ${base_filename}) ;;
+                js)     local result=$(euler_execute_docker dexec/node       ${base_filename}) ;;
+                lisp)   local result=$(euler_execute_docker dexec/lisp       ${base_filename}) ;;
+                m)      local result=$(euler_execute_docker dexec/objc       ${base_filename} -std=c99) ;;
+                ml)     local result=$(euler_execute_docker dexec/ocaml      ${base_filename}) ;;
+                pl)     local result=$(euler_execute_docker dexec/perl       ${base_filename}) ;;
+                php)    local result=$(euler_execute_docker dexec/php        ${base_filename}) ;;
+                py)     local result=$(euler_execute_docker dexec/python     ${base_filename}) ;;
+                rb)     local result=$(euler_execute_docker dexec/ruby       ${base_filename}) ;;
+                rs)     local result=$(euler_execute_docker dexec/rust       ${base_filename}) ;;
+                scala)  local result=$(euler_execute_docker dexec/scala      ${base_filename}) ;;
+                sh)     local result=$(euler_execute_docker dexec/bash       ${base_filename}) ;;
                 *)      echo -e -n "Unknown file type"; exit 1 ;;
 
             esac
