@@ -39,14 +39,19 @@ valid_extensions=(
     'sh'
 )
 
-script_name=$(basename ${0}); pushd $(dirname ${0}) > /dev/null
-script_path=$(pwd -P); popd > /dev/null
+script_name=$(basename ${0}); pushd $(dirname ${0}) >/dev/null
+script_path=$(pwd -P); popd >/dev/null
 
+exercise_number_raw="${1}"
 exercise_number=$((10#${1}))
 exercise_number_padded=$(printf "%03d" ${exercise_number})
 target_language=${2}
 exercise_path=${script_path}/problems/${exercise_number_padded}
 answer=$(cat 2> /dev/null ${exercise_path}/answer)
+
+if [[ ${OSTYPE} == "linux-gnu" ]]; then
+    extra_usage="sudo "
+fi
 
 function euler_concatenate_list() {
 
@@ -58,14 +63,21 @@ function euler_concatenate_list() {
 
 function euler_validate() {
 
-    if [[ -z ${exercise_number} ]]; then
+    if [[ ${OSTYPE} == "linux-gnu" ]] && [[ $UID != 0 ]]; then
+        echo "Please run this script with sudo:"
+        echo "sudo $0 $*"
+        echo -e " ${text_bold}Usage: ${text_reset}${extra_usage}./${script_name} ${text_lightblue}<exercise number>${text_reset}"
+        exit 1
+    fi
 
-        echo -e " ${text_bold}Usage: ${text_reset}./${script_name} ${text_lightblue}<exercise number>${text_reset}"
+    if [ -z ${exercise_number_raw} ]; then
+
+        echo -e " ${text_bold}Usage: ${text_reset}${extra_usage}./${script_name} ${text_lightblue}<exercise number>${text_reset}"
         exit 1
 
     fi
 
-    if [[ ! -d ${exercise_path} ]]; then
+    if [ ! -d ${exercise_path} ]; then
 
         echo -e "${text_red}Error${text_reset} No such folder ${exercise_path}"
         exit 1
