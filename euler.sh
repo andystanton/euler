@@ -33,6 +33,7 @@ valid_extensions=(
     'php'
     'py'
     'rb'
+    'rkt'
     'rs'
     'scala'
     'sh'
@@ -96,14 +97,14 @@ function euler_execute_docker() {
         docker_cmd="docker"
     fi
 
-    local image=${1}
-    local srcfile=${2}
-    local entrypoint_args=${3}
+    local image=${1}; shift
+    local srcfile=${1}; shift
+    local entrypoint_args=("${@}")
     local workdir=/data/euler
     local result=$(${docker_cmd} run -t --rm \
                     -w ${workdir} \
-                    -v $(pwd -P)/${srcfile}:${workdir}/${srcfile} \
-                    ${image} ${srcfile} ${entrypoint_args})
+                    -v $(pwd -P):${workdir} \
+                    ${image} ${srcfile} "${entrypoint_args[@]}")
 
     # in case of carriage return at end of result
     echo -e ${result} | perl -p -e 's/\r\n$/\n/g'
@@ -148,26 +149,27 @@ function euler_execute() {
 
             case ${file_extension} in
 
-                c)      local result=$(euler_execute_docker dexec/cpp        ${base_filename}) ;;
+                c)      local result=$(euler_execute_docker dexec/c          ${base_filename} -a -std=c11) ;;
                 clj)    local result=$(euler_execute_docker dexec/clojure    ${base_filename}) ;;
                 coffee) local result=$(euler_execute_docker dexec/coffee     ${base_filename}) ;;
-                cpp)    local result=$(euler_execute_docker dexec/cpp        ${base_filename} -std=c++14) ;;
-                cs)     local result=$(euler_execute_docker dexec/mono       ${base_filename} c#) ;;
+                cpp)    local result=$(euler_execute_docker dexec/cpp        ${base_filename} -a -std=c++14) ;;
+                cs)     local result=$(euler_execute_docker dexec/csharp     ${base_filename}) ;;
                 d)      local result=$(euler_execute_docker dexec/d          ${base_filename}) ;;
-                erl)    local result=$(euler_execute_docker dexec/erlang     ${base_filename} main) ;;
-                fs)     local result=$(euler_execute_docker dexec/mono       ${base_filename} f#) ;;
+                erl)    local result=$(euler_execute_docker dexec/erlang     ${base_filename}) ;;
+                fs)     local result=$(euler_execute_docker dexec/fsharp     ${base_filename}) ;;
                 go)     local result=$(euler_execute_docker dexec/go         ${base_filename}) ;;
                 groovy) local result=$(euler_execute_docker dexec/groovy     ${base_filename}) ;;
-                hs)     local result=$(euler_execute_docker dexec/haskell    ${base_filename} -v0) ;;
+                hs)     local result=$(euler_execute_docker dexec/haskell    ${base_filename}) ;;
                 java)   local result=$(euler_execute_docker dexec/java       ${base_filename}) ;;
                 js)     local result=$(euler_execute_docker dexec/node       ${base_filename}) ;;
                 lisp)   local result=$(euler_execute_docker dexec/lisp       ${base_filename}) ;;
-                m)      local result=$(euler_execute_docker dexec/objc       ${base_filename} -std=c99) ;;
+                m)      local result=$(euler_execute_docker dexec/objc       ${base_filename} -a -std=c11) ;;
                 ml)     local result=$(euler_execute_docker dexec/ocaml      ${base_filename}) ;;
                 pl)     local result=$(euler_execute_docker dexec/perl       ${base_filename}) ;;
                 php)    local result=$(euler_execute_docker dexec/php        ${base_filename}) ;;
                 py)     local result=$(euler_execute_docker dexec/python     ${base_filename}) ;;
                 rb)     local result=$(euler_execute_docker dexec/ruby       ${base_filename}) ;;
+                rkt)    local result=$(euler_execute_docker dexec/racket     ${base_filename}) ;;
                 rs)     local result=$(euler_execute_docker dexec/rust       ${base_filename}) ;;
                 scala)  local result=$(euler_execute_docker dexec/scala      ${base_filename}) ;;
                 sh)     local result=$(euler_execute_docker dexec/bash       ${base_filename}) ;;
