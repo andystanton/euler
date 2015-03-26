@@ -1,14 +1,9 @@
-import scala.collection.mutable.ArraySeq
-import scala.math.sqrt
-
-val target: Long = 600851475143L
-
 // http://en.wikipedia.org/wiki/Sieve_of_Atkin
-def atkinSieve(max: Int): Seq[Int] = {
-  val sqrtMax = sqrt(max)
-  for {
-    x <- (1 to sqrtMax.toInt)
-    y <- (1 to sqrtMax.toInt)
+def atkinSieve(max: Int): collection.SortedSet[Int] = {
+  val sqrtMax = math.sqrt(max)
+  val primeList = for {
+    x <- (2 to sqrtMax.toInt)
+    y <- (2 to x)
     n = (4 * x^2 + y^2)
     m = (3 * x^2 + y^2)
     ntrue = (n % 12 == 1 || n % 12 == 5)
@@ -16,10 +11,12 @@ def atkinSieve(max: Int): Seq[Int] = {
   } yield {
     if (ntrue) n else m
   }
+  collection.SortedSet(primeList: _*)
 }
 
-val primes = atkinSieve(10000000)
-val primeFactors = primes.filter(target % _ == 0)
-val largestPrime = primeFactors.reverse.head
+def largestPrimeFactor(target: Long, limit: Int) = atkinSieve(limit).filter(target % _ == 0).last
 
-println(largestPrime)
+val target: Long = 600851475143L
+val limit: Int = 100000000
+
+println(largestPrimeFactor(target, limit))

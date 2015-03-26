@@ -64,8 +64,6 @@ function euler_concatenate_list() {
 function euler_validate() {
 
     if [[ ${OSTYPE} == "linux-gnu" ]] && [[ $UID != 0 ]]; then
-        echo "Please run this script with sudo:"
-        echo "sudo $0 $*"
         echo -e " ${text_bold}Usage: ${text_reset}${extra_usage}./${script_name} ${text_lightblue}<exercise number>${text_reset}"
         exit 1
     fi

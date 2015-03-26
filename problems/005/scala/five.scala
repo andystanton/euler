@@ -1,8 +1,9 @@
-def highestCommonMultiplesIn(range: Seq[Int]): Seq[Int] = {
+def highestCommonMultiplesIn(min: Int, max: Int) = {
+  val range = (min to max)
   val factors = for {
     i <- range
-    j <- range
-    candidate = i % j if candidate == 0 && i > j
+    j <- (min to i)
+    candidate = i % j if candidate == 0 && i != j
   } yield j
   range.diff(factors)
 }
@@ -21,7 +22,7 @@ def lowestCommonMultipleForAllIn(sourceRange: Seq[Int], next: Int, nnIt: Iterato
 }
 
 def lowestCommonMultipleForAllIn(start: Int, end: Int): Int = {
-  lowestCommonMultipleForAllIn(highestCommonMultiplesIn(start to end), end, getNaturalNumbers(start))
+  lowestCommonMultipleForAllIn(highestCommonMultiplesIn(start, end), end, getNaturalNumbers(start))
 }
 
 println(lowestCommonMultipleForAllIn(1, 20))
