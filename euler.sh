@@ -98,13 +98,10 @@ function euler_execute_docker() {
     fi
 
     local image=${1}; shift
-    local srcfile=${1}; shift
-    local entrypoint_args=("${@}")
-    local workdir=/data/euler
+    local dexec_args=("${@}")
     local result=$(${docker_cmd} run -t --rm \
-                    -w ${workdir} \
-                    -v $(pwd -P):${workdir} \
-                    ${image} ${srcfile} "${entrypoint_args[@]}")
+                    -v $(pwd -P):/tmp/dexec/build:ro \
+                    ${image} "${dexec_args[@]}")
 
     # in case of carriage return at end of result
     echo -e ${result} | perl -p -e 's/\r\n$/\n/g'
