@@ -26,9 +26,8 @@ If present, these are displayed when the script is run and in particular if ther
 
 ## Requirements
 
- * bash
- * gnu core utils & perl
- * docker 1.3
+ * bash, gnu core utils & perl
+ * docker 1.5
 
 A good internet connection and disk space is also required as the Docker images are several hundred MB each and 20+ languages are supported.
 
@@ -38,7 +37,7 @@ A good internet connection and disk space is also required as the Docker images 
 git clone https://github.com/andystanton/euler.git && cd euler
 ```
 
-To run all solutions to a given problem:
+To run all solutions to a given problem (prefixing with sudo if your Docker setup requires):
 
 ```sh
 ./euler.sh 1
@@ -54,4 +53,5 @@ To run a solution to a given problem for a particular language, use the language
 ## Links
 
  * [Project Euler](https://projecteuler.net)
- * [Docker Exec](https://github.com/andystanton/docker-exec)
+ * [Docker Exec on GitHub](https://github.com/docker-exec)
+ * [Docker Exec on Docker Hub](https://registry.hub.docker.com/repos/dexec/)
