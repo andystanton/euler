@@ -156,10 +156,10 @@ function euler_execute() {
 
             case ${file_extension} in
 
-                c)      local result=$(euler_execute_docker dexec/c          ${base_filename} -a -std=c11) ;;
+                c)      local result=$(euler_execute_docker dexec/c          ${base_filename} -b -std=c11) ;;
                 clj)    local result=$(euler_execute_docker dexec/clojure    ${base_filename}) ;;
                 coffee) local result=$(euler_execute_docker dexec/coffee     ${base_filename}) ;;
-                cpp)    local result=$(euler_execute_docker dexec/cpp        ${base_filename} -a -std=c++14) ;;
+                cpp)    local result=$(euler_execute_docker dexec/cpp        ${base_filename} -b -std=c++14) ;;
                 cs)     local result=$(euler_execute_docker dexec/csharp     ${base_filename}) ;;
                 d)      local result=$(euler_execute_docker dexec/d          ${base_filename}) ;;
                 erl)    local result=$(euler_execute_docker dexec/erlang     ${base_filename}) ;;
@@ -170,7 +170,7 @@ function euler_execute() {
                 java)   local result=$(euler_execute_docker dexec/java       ${base_filename}) ;;
                 js)     local result=$(euler_execute_docker dexec/node       ${base_filename}) ;;
                 lisp)   local result=$(euler_execute_docker dexec/lisp       ${base_filename}) ;;
-                m)      local result=$(euler_execute_docker dexec/objc       ${base_filename} -a -std=c11) ;;
+                m)      local result=$(euler_execute_docker dexec/objc       ${base_filename} -b -std=c11) ;;
                 ml)     local result=$(euler_execute_docker dexec/ocaml      ${base_filename}) ;;
                 pl)     local result=$(euler_execute_docker dexec/perl       ${base_filename}) ;;
                 php)    local result=$(euler_execute_docker dexec/php        ${base_filename}) ;;
